@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,19 +18,22 @@ namespace 判斷是否在股票交易營業日以及時間內
 		{
 			//日期必需在星期一~星期五
 			DayOfWeek weekday = dateTime.DayOfWeek;
-			int value = (int)weekday;
 
-			if (value == 0 || value >= 6)
-				return false;
+			if (weekday == DayOfWeek.Sunday || weekday == DayOfWeek.Saturday)
+			{
+				return false; 
+			}
 
 			//時間必需介於9:00 ~ 13:30
 			DateTime tradStart = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day).AddHours(9);
 			DateTime tradEnd = tradStart.AddHours(4.5);
 
-			if (dateTime<tradStart||dateTime>tradEnd)
+			if (dateTime < tradStart || dateTime > tradEnd)
+			{
 				return false;
-			return true;
+			}
 
+			return true;
 		}
 	}
 }
